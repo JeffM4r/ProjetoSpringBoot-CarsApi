@@ -2,6 +2,7 @@ package com.carsgroup.carsapi.controllers;
 
 import java.util.List;
 
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +32,25 @@ public class CarController {
   }
 
   @GetMapping
-  public List<Car> getAll(){
+  public List<Car> getAll() {
     return repository.findAll();
   }
 
   @DeleteMapping("/{id}")
-  public void delete(@PathVariable Long id){
+  public void delete(@PathVariable Long id) {
     repository.deleteById(id);
+  }
+
+  @PutMapping("/{id}")
+  public void update(@PathVariable Long id, @RequestBody @Valid CarDTO req) {
+    repository.findById(id).map(oldCar -> {
+      oldCar.setAnoModelo(req.anoModelo());
+      oldCar.setDataFabricacao(req.dataFabricacao());
+      oldCar.setModelo(req.modelo());
+      oldCar.setValor(req.valor());
+      oldCar.setFabricante(req.fabricante());
+      
+      return repository.save(oldCar);
+    });
   }
 }
