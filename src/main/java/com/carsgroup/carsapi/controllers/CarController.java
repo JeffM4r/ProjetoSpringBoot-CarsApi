@@ -14,6 +14,9 @@ import com.carsgroup.carsapi.dto.CarDTO;
 import com.carsgroup.carsapi.dto.IdRequestDTO;
 import com.carsgroup.carsapi.models.Car;
 import com.carsgroup.carsapi.repository.CarRepository;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -27,7 +30,7 @@ public class CarController {
   private CarRepository repository;
 
   @PostMapping
-  public void create(@RequestBody CarDTO req) {
+  public void create(@RequestBody @Valid CarDTO req) {
     repository.save(new Car(req));
   }
 
@@ -35,4 +38,5 @@ public class CarController {
   public List<Car> getAll(){
     return repository.findAll();
   }
+
 }

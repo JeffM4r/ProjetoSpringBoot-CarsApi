@@ -1,5 +1,7 @@
 package com.carsgroup.carsapi.models;
 
+import java.util.Date;
+
 import com.carsgroup.carsapi.dto.CarDTO;
 
 import jakarta.persistence.Column;
